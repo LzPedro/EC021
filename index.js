@@ -29,12 +29,13 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
 //login  
-server.get('/auth/login', (req, res,next) => {
+server.post('/auth/login', (req, res,next) => {
     console.log("TRYING TO LOGIN")
     const url_login = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/login'
     const url_token = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/validateToken '
-    
-    axios.post(url_login, { "username": 'pedro.manoel',"password": '1160' })
+    let user = req.body.username; 
+    let pass = req.body.password; 
+    axios.post(url_login, { "username": user,"password": pass })
         .then(function(response, data) {
             data = response.data.token;
             axios({
