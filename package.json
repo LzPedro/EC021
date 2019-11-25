@@ -1,0 +1,30 @@
+{
+  "name": "EC021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LzPedro/EC021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LzPedro/EC021/issues"
+  },
+  "homepage": "https://github.com/LzPedro/EC021#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "mongoose": "^5.7.12",
+    "mongoose-string-query": "^0.2.7",
+    "mongoose-timestamp": "^0.6.0",
+    "restify": "^8.4.0",
+    "restify-cors-middleware": "^1.1.1",
+    "restify-errors": "^8.0.1",
+    "restify-plugins": "^1.6.0"
+  }
+}
