@@ -2,6 +2,7 @@ const restify = require('restify')
 const mongoose = require('mongoose')
 const axios = require('axios').default;
 
+
 const server = restify.createServer({
     name:'API',
     version:'0.0.1'
@@ -12,7 +13,7 @@ server.pre(restify.pre.sanitizePath());
 
 const porta = 8080
 
-let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkFXVCJ9.eyJpZCI6IjVkZGM4Y2Q2N2M2YjBlMDAxN2M2MjFhNyIsImlhdCI6MTU3NDczNzc2NSwiZXhwIjoxNTc0ODI0MTY1fQ.bur3EbFR7xnxfPCM9Jog4QSsf7lHfGYciqeAcPcn2LY"
+let token = ""
 const url_login = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/login'
 const url_token = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/validateToken '
 const url_mongo = 'mongodb+srv://adauto:adauto@cluster0-rven8.mongodb.net/test?retryWrites=true&w=majority'
@@ -33,8 +34,8 @@ server.post('/auth/login', async (req, res,next) => {
     let pass = req.body.password; 
     try{
         token = await axios.post(url_login, { "username": user,"password": pass })
+        res.send(token.data);
         token = token.data.token //salva o token obtido na variável token para uso futuro
-        res.send({Token:`${token}`});
     }catch (error){
         res.json({message: "Invalid Username or Password"})
     }
