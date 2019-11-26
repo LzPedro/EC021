@@ -2,7 +2,7 @@ const restify = require('restify')
 const mongoose = require('mongoose')
 const axios = require('axios').default;
 var corsMiddleware = require('restify-cors-middleware')
-const token = {}
+let token = ''
 var cors = corsMiddleware({
   preflightMaxAge: 5, //Optional
   origins: ['*'],
@@ -19,17 +19,17 @@ server.use(cors.actual);
 server.use(restify.plugins.bodyParser())
 const porta = 8080
 
-mongoose.connect('mongodb+srv://adauto:adauto@cluster0-rven8.mongodb.net/test?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://adauto:adauto@cluster0-rven8.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser: true,useUnifiedTopology: true })
         .then(_=>{
-        console.log("MONGO connected")
+        console.log("Connected to MongoDB")
 })
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-//login  
-server.post('/auth/login', (req, res,next) => {
+//LOGIN  
+server.post('/auth/login', async (req, res,next) => {
     console.log("TRYING TO LOGIN")
     const url_login = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/login'
     const url_token = 'https://ec021-2019-2-av2-auth.herokuapp.com/auth/validateToken '
@@ -47,9 +47,13 @@ server.post('/auth/login', (req, res,next) => {
               })
               .then(function(response,data){
                   //console.log(response.data.token)
-                  res.send({Token:`${response.data.token}`});
+                 // res.send({Token:`${response.data.token}`});
               })
         });
+    token = await axios.post(url_login, { "username": user,"password": pass })
+    token = token.data.token
+    console.log("TOKENZADA: ", token)
+    res.send({Token:`${token}`});
 });
 
 const Meme = require('./meme');
@@ -130,6 +134,5 @@ server.del('/meme', async (req, res, next) => {
 
 
 server.listen(porta, () => {
-  console.log(`Servidor de pé em http://localhost:${porta}`)
-  console.log('Pra derrubar o servidor: ctrl + c')
+  console.log(`Server up at http://localhost:${porta}`)
 })
